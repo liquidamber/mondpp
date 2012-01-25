@@ -91,7 +91,8 @@ namespace mondpp
     global_var()
       : ref(global_ptr<ValueType>::malloc(sizeof(ValueType))) {}
 
-    global_var(ValueType var) : global_var()
+    global_var(ValueType var)
+      : ref(global_ptr<ValueType>::malloc(sizeof(ValueType)))
     { ref = var; }
 
     // global_var(const global_var<ValueType> & other)
@@ -127,8 +128,9 @@ namespace mondpp
     { ptr = global_ptr<ValueType>::malloc(sizeof(ValueType)*length); }
 
     global_array(const global_array<ValueType> & other)
-      : global_array(array.size())
+      : length(length)
     {
+      ptr = global_ptr<ValueType>::malloc(sizeof(ValueType)*length);
       std::array<ValueType, array.size()> temp;
       other.ptr.get(&temp[0], sizeof(ValueType)*array.size());
       this->ptr.put(&temp[0], sizeof(ValueType)*array.size());
