@@ -1,7 +1,7 @@
 #ifndef MONDPP_MEMORY_H
 #define MONDPP_MEMORY_H
 
-#include "mond_memory.h"
+#include <mond.h>
 
 namespace mondpp
 {
@@ -18,6 +18,10 @@ namespace mondpp
   public:
     global_ptr() = default;
     global_ptr(mondptr_t ptr) : ptr(ptr) {}
+    global_ptr(std::nullptr_t) : ptr(MOND_NULL) {}
+
+    global_ptr<ValueType> & operator=(std::nullptr_t)
+    { ptr = MOND_NULL; }
 
     inline global_ptr<ValueType> & operator+=(size_t offset)
     { return global_ptr<ValueType>(mond_ptr_move(ptr, offset)); }
